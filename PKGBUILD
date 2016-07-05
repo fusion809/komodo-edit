@@ -23,12 +23,13 @@ optdepends=('xterm: can be used by komodo-toolbox')
 conflicts=('komodoedit')
 options=('!strip')
 
-source=('_install.py.patch' 'activestate.py.patch')
+source=('_install.py.patch' 'activestate.py.patch' 'komodo-edit.desktop')
 source_i686=("http://downloads.activestate.com/Komodo/releases/${_major}/${_bigname}-${_major}-${_minor}-linux-x86.tar.gz")
 source_x86_64=("http://downloads.activestate.com/Komodo/releases/${_major}/${_bigname}-${_major}-${_minor}-linux-x86_64.tar.gz")
 
 sha256sums=('98177ee92e13036baa0a4f61ef398c0e23ab5d250cf7aa1b1c5a557efaaec3a8'
-            'c68d7e94955e0f7b32cf3863136891d6441d9dd3a6346481b911d2c250cf32e9')
+            'c68d7e94955e0f7b32cf3863136891d6441d9dd3a6346481b911d2c250cf32e9'
+            'eeced69484d6da2fdf2d91cc83acee0a846c244e9681df12e748306177fb4604')
 sha256sums_i686=('dab3edfa0c4f65638205fcfb3755702c862a059a0593c133edce401a49e51e22')
 sha256sums_x86_64=('601f2d86874eb6879e206780f0b2e9fc0957ff83da8d48eefcafe0bf56907806')
 
@@ -54,9 +55,7 @@ build() {
 package() {
   cd ${srcdir}/${_bigname}-${_major}-${_minor}-linux-${_arch}
   ./install.sh -v -s -I ${pkgdir}/opt/${pkgname} --dest-dir /opt/${pkgname} 2>&1 > /dev/null
-  _dfile=${pkgdir}/opt/${pkgname}/share/desktop/${pkgname}-${_major:0:2}.desktop
-  sed -i "s#${pkgdir}##" ${_dfile}
-  install -Dm644 ${_dfile} ${pkgdir}/usr/share/applications/${pkgname}.desktop
+  install -Dm644 $srcdir/komodo-edit.desktop ${pkgdir}/usr/share/applications/${pkgname}.desktop
   install -d ${pkgdir}/usr/bin
   ln -sf /opt/komodo-edit/bin/komodo ${pkgdir}/usr/bin/komodo
 }
